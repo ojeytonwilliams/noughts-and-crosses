@@ -8,7 +8,7 @@ function hasWinner(state) {
   var playerMoves = moves(state);
   // NOTE: the dumb way!  Namely, try each solution and see if it
   // can be found in the moves.
-  console.log("playerMoves", playerMoves);
+//  console.log("playerMoves", playerMoves);
   let solved = false;
 
   lines.lines.forEach(soln => {

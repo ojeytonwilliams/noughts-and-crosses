@@ -24,7 +24,6 @@ diagonal.push(down);
 // NOTE: invalid solution, since the order isn't correct
 //diagonal.push([[1,1], [1,1], [2,2]]);
 
-console.log(diagonal);
 
 exports.diagonal = diagonal;
 exports.horizontal = horizontal;
