@@ -29,7 +29,6 @@ test('After a move is made, the remaining moves should not include it', t => {
   var move = [1,1];
   gameOne.move([1,1]);
   var remaining = asArray().filter(x => !_.isEqual(x, move));
-  console.log(remaining);
   t.deepEqual(gameOne.getRemainingMoves(), asArray().filter(x => !_.isEqual(x, move)));
 });
 
