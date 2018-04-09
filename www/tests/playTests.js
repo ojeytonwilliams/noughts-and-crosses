@@ -47,7 +47,7 @@ test('If all game states are explored up to four moves, no winning states should
   for (var i = 0; i < 4; i++) {
     gameStates = allNextStates(gameStates);
   }
-  let winnerId = gameStates.findIndex(state => hasWinner(state.getMoves()));
+  let winnerId = gameStates.findIndex(state => hasWinner(state));
   t.falsy(winnerId > -1);
 });
 
@@ -56,6 +56,6 @@ test('If all game states are generated for 5 turns, at least one should be a win
   for (var i = 0; i < 5; i++) {
     gameStates = allNextStates(gameStates);
   }
-  let winnerId = gameStates.findIndex(state => hasWinner(state.getMoves()));
+  let winnerId = gameStates.findIndex(state => hasWinner(state));
   t.truthy(winnerId > -1);
 });

@@ -37,8 +37,27 @@ test('A game with existing moves should be independent of the original game', t 
   let second = [1,1];
   let gameOne = t.context.gameOne;
   gameOne.move(first);
-  let gameTwo = game(gameOne.getMoves(), gameOne.getRemainingMoves());
+  let gameTwo = game(gameOne.getMoves());
   gameTwo.move(second)
   t.deepEqual(gameOne.getMoves(), [first], 'Game one should have one move');
   t.deepEqual(gameTwo.getMoves(), [first, second], 'Game two should have two moves');
+});
+
+test('It should be possible to add several moves at once', t => {
+	let first = [3,3];
+	let second = [1,1];
+	let gameOne = t.context.gameOne;
+	let gameTwo = game();
+
+	t.deepEqual(gameTwo.moves([first, second]).getMoves(), gameOne.move(first).move(second).getMoves());
+});
+
+test('It should be possible to construct a game just using moves', t => {
+	let first = [3,3];
+	let second = [1,1];
+	let gameOne = t.context.gameOne;
+	let gameTwo = game([first, second]);
+
+	t.deepEqual(gameTwo.getMoves(), gameOne.move(first).move(second).getMoves());
+  t.deepEqual(gameTwo.getRemainingMoves(), gameOne.move(first).move(second).getRemainingMoves());
 });

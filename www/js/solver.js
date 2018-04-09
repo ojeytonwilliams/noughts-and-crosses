@@ -7,11 +7,12 @@ const {
   allNextStates
 } = require('./play');
 
-function hasWinner(state) {
+function hasWinner(gameState) {
   // it's impossible to win in less than 5 moves
-  var len = state.length;
+  let allMoves = gameState.getMoves();
+  var len = allMoves.length;
   if (len < 5) return false;
-  var playerMoves = moves(state);
+  var playerMoves = moves(allMoves);
   // NOTE: the dumb way!  Namely, try each solution and see if it
   // can be found in the moves.
   //  console.log("playerMoves", playerMoves);
@@ -25,8 +26,8 @@ function hasWinner(state) {
   return solved;
 }
 
-function isDrawn(moves) {
-  return moves.length == 9 && !hasWinner(moves);
+function isDrawn(gameState) {
+  return gameState.getMoves().length == 9 && !hasWinner(gameState);
 }
 
 function hasSolution(moves, soln) {
@@ -41,14 +42,14 @@ function hasSolution(moves, soln) {
   return count == 3;
 }
 
-function moves(state) {
-  var even = !(state.length % 2);
-  // if the state has even length, we want all the odd ids (because it's zero
+function moves(allMoves) {
+  var even = !(allMoves.length % 2);
+  // if the allMoves has even length, we want all the odd ids (because it's zero
   // based, duh).  In this case, id + !even = id, so the predicate is just
   // id % 2, i.e. is truthy for all odd values.
   // If it has odd length, id + !even = id + 1, so the predicate is just
   // (id + 1) % 2 and is truthy for all even values
-  return state.filter((x, id) => {
+  return allMoves.filter((x, id) => {
     return ((id + !even) % 2)
   });
 }
@@ -60,7 +61,7 @@ function p1Wins(gameStates) {
     if (!p1HasLastMove) {
       return false;
     } else {
-      return hasWinner(game.getMoves());
+      return hasWinner(game);
     }
   });
 }
@@ -71,20 +72,20 @@ function p2Wins(gameStates) {
     if (!p2HasLastMove) {
       return false;
     } else {
-      return hasWinner(game.getMoves());
+      return hasWinner(game);
     }
   });
 }
 
 function draws(gameStates) {
   return gameStates.filter(game => {
-    return isDrawn(game.getMoves());
+    return isDrawn(game);
   });
 }
 
 function ongoing(gameStates) {
   return gameStates.filter(game => {
-    return game.getMoves().length != 9 && !hasWinner(game.getMoves());
+    return game.getMoves().length != 9 && !hasWinner(game);
   });
 }
 
@@ -93,9 +94,9 @@ function rank(gameState, move, player) {
   let currentGame = game(gameState.getMoves(), gameState.getRemainingMoves());
 
   currentGame.move(move);
-  if (hasWinner(currentGame.getMoves())) {
+  if (hasWinner(currentGame)) {
     return 1;
-  } else if (isDrawn(currentGame.getMoves())) {
+  } else if (isDrawn(currentGame)) {
     return 0;
   }
 
@@ -120,9 +121,6 @@ function rank(gameState, move, player) {
   console.log(wins, losses, drawnGames); */
   return (wins - losses)/(wins + losses + drawnGames);
 }
-console.log("top left", rank(game(),[1,1],1));
-console.log("top", rank(game(),[1,2],1));
-console.log("middle", rank(game(), [2,2],1));
 
 exports.moves = moves;
 exports.hasWinner = hasWinner;
