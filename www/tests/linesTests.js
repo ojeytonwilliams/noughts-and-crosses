@@ -7,10 +7,10 @@ test("All the solutions contain three elements", t => {
   });
 });
 
-test("All the elements are arrays with two entries", t => {
+test("All the elements are numbers from 1 to 9", t => {
   lines.lines.forEach(soln => {
     soln.forEach(elem => {
-      t.is(2, elem.length);
+      t.true(elem <= 9 && elem > 0);
     })
   });
 });
@@ -19,8 +19,7 @@ test("The three elements are distinct", t => {
   lines.lines.forEach(soln => {
     for(let i = 0; i < 3; i++) {
       for(let j = i + 1; j < 3; j++){
-        t.notDeepEqual(soln[i], soln[j],
-          "A single element should not appear twice in a solution");
+        t.not(soln[i], soln[j], "A single element should not appear twice in a solution");
       }
     }
   });

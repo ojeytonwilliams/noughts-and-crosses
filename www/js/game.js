@@ -1,12 +1,14 @@
 const _ =  require('lodash');
-const { grid, asArray } = require('./grid.js');
+const { grid, asArray, asObject, asSet } = require('./grid.js');
 
 
 exports.game = function (oldMoves) {
   //let moves = oldMoves ? oldMoves.slice() : [];
 //  let remaining = oldRemaining ? oldRemaining.slice() : asArray();
   let moves = [];
-  let remaining = asArray();
+//  let remaining = asArray();
+//let remaining = asObject();
+  let remaining = asSet();
   let obj = {
     getMoves: function getMoves() {
       return moves;
@@ -16,7 +18,9 @@ exports.game = function (oldMoves) {
     },
     move: function move(pos) {
       moves.push(pos);
-      remaining = remaining.filter(x => !_.isEqual(x, pos));
+   //  remaining = remaining.filter(x => x !== pos);
+  //    delete remaining["" + pos];
+      remaining.delete(pos);
       return this;
     },
     moves: function moves(xs) {

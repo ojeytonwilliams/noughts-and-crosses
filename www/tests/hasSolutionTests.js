@@ -8,13 +8,13 @@ test("No moves = no solution", t => {
 });
 
 test("The solution is a solution", t => {
-  t.true(solver.hasSolution([[1,1], [1,2], [1,3]], [[1,1], [1,2], [1,3]]));
+  t.true(solver.hasSolution([1, 2, 3], [1, 2, 3]));
 });
 
 test("The order of the moves doesn't matter", t => {
-  t.true(solver.hasSolution([[1,1], [1,3], [1,2]], [[1,1], [1,2], [1,3]]));
+  t.true(solver.hasSolution([1, 3, 2], [1, 2, 3]));
 });
 
 test("The solution is in the moves", t => {
-  t.true(solver.hasSolution([[1,1], [2,2], [1,2], [1,3]], [[1,1], [1,2], [1,3]]));
+  t.true(solver.hasSolution([1, 5, 2, 3], [1, 2, 3]));
 });

@@ -35,7 +35,7 @@ function hasSolution(moves, soln) {
   // If we can find each of the three values in soln
   soln.forEach(pos => {
     // ... inside moves, that means that the set of moves wins the game.
-    let id = moves.findIndex(move => _.isEqual(move, pos));
+    let id = moves.findIndex(move => move === pos);
 
     count += (id > -1);
   });

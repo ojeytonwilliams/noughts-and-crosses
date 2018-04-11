@@ -1,7 +1,7 @@
 const { game } = require('./game.js');
 
 function nextMoves(gameState) {
-  return gameState.getRemainingMoves().map(move => {
+  return [...gameState.getRemainingMoves()].map(move => {
     // Create a copy of the current game state and then make the move.
     return game(gameState.getMoves(), gameState.getRemainingMoves()).move(move);
   })

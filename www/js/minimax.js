@@ -20,7 +20,8 @@ function minimax(gameState, depth, currentPlayer) {
 
   // we know how to evaluate the first move (edges are bad, everything else is fine)
 
-  if(remaining.length == 8) {
+//  if(remaining.length == 8) {
+  if(remaining.size === 8) {
     return rankFirstMove(moves[0]);
   }
 
@@ -29,15 +30,21 @@ function minimax(gameState, depth, currentPlayer) {
     return currentPlayer ? Number.POSITIVE_INFINITY : Number.NEGATIVE_INFINITY;
   }
   // draw
-  if (remaining.length === 0) {
+  //if (remaining.length === 0) {
+  if(remaining.size === 0) {
     return 0;
   }
 
   // undecided
-  let values = remaining.map(childMove => {
+/*  let values = remaining.map(childMove => {
     let nextGameState = game(moves);
     return minimax(nextGameState.move(childMove), depth - 1, !currentPlayer);
-  });
+  }); */
+
+  let values = [...remaining].map(childMove => {
+      let nextGameState = game(moves);
+      return minimax(nextGameState.move(childMove), depth - 1, !currentPlayer);
+    });
 
   //console.log("remaining", remaining);
   //console.log("maximizing", currentPlayer);
@@ -50,13 +57,8 @@ function minimax(gameState, depth, currentPlayer) {
 };
 
 function rankFirstMove(firstMove) {
-  let losingMoves = [[1,2],[2,1],[2,3],[3,2]];
-  let losing = false;
-
-  for(i in losingMoves) {
-    losing = losing ? losing : _.isEqual(losingMoves[i], firstMove);
-  }
-return losing ? Number.NEGATIVE_INFINITY : 0;
+//  the edges are [2,4,6,8], so if the first move is even it's a mistake.
+  return firstMove % 2 == 0 ? Number.NEGATIVE_INFINITY : 0;
 }
 
 

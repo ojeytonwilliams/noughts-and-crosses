@@ -1,7 +1,7 @@
 import test from 'ava';
 const _ = require('lodash');
 const { game } = require('../js/game.js');
-const { grid, asArray } = require('../js/grid');
+const { grid, asArray, asSet } = require('../js/grid');
 
 test.beforeEach(t => {
 	t.context.gameOne = game();
@@ -15,26 +15,28 @@ test('A game should store the moves made and the moves remaining', t => {
 test('A game should store the moves remaining', t => {
   let gameOne = t.context.gameOne;
 
-  t.deepEqual(gameOne.getRemainingMoves(), asArray(), 'The game should start with a full grid of moves available');
+  t.deepEqual(gameOne.getRemainingMoves(), asSet(), 'The game should start with a full grid of moves available');
 });
 
 test('After a move is made, the game should show that move', t => {
   let gameOne = t.context.gameOne;
-    gameOne.move([1,1]);
-    t.deepEqual(gameOne.getMoves(), [[1,1]]);
+    gameOne.move(1);
+    t.deepEqual(gameOne.getMoves(), [1]);
 });
 
 test('After a move is made, the remaining moves should not include it', t => {
   let gameOne = t.context.gameOne;
-  var move = [1,1];
-  gameOne.move([1,1]);
-  var remaining = asArray().filter(x => !_.isEqual(x, move));
-  t.deepEqual(gameOne.getRemainingMoves(), asArray().filter(x => !_.isEqual(x, move)));
+  var move = 1;
+  gameOne.move(1);
+  var remaining = asArray().filter(x => x != move);
+	let expected = asSet();
+	expected.delete(move);
+  t.deepEqual(gameOne.getRemainingMoves(), expected);
 });
 
 test('A game with existing moves should be independent of the original game', t => {
-  let first = [3,3];
-  let second = [1,1];
+  let first = 9;
+  let second = 1;
   let gameOne = t.context.gameOne;
   gameOne.move(first);
   let gameTwo = game(gameOne.getMoves());
@@ -44,8 +46,8 @@ test('A game with existing moves should be independent of the original game', t 
 });
 
 test('It should be possible to add several moves at once', t => {
-	let first = [3,3];
-	let second = [1,1];
+	let first = 9;
+	let second = 1;
 	let gameOne = t.context.gameOne;
 	let gameTwo = game();
 
@@ -53,8 +55,8 @@ test('It should be possible to add several moves at once', t => {
 });
 
 test('It should be possible to construct a game just using moves', t => {
-	let first = [3,3];
-	let second = [1,1];
+	let first = 9;
+	let second = 1;
 	let gameOne = t.context.gameOne;
 	let gameTwo = game([first, second]);
 

@@ -19,14 +19,14 @@ test('The AI should try every move to start a game', t => {
 
 test('If a game has one move, then there should be 8 next turns', t => {
     let gameOne = game();
-    gameOne.move([2,2]);
+    gameOne.move(5);
     let nextTurns = nextMoves(gameOne);
     t.is(nextTurns.length, 8);
 });
 
 test('If a game has three moves, then there should be 6 next turns', t => {
     let gameOne = game();
-    gameOne.move([2,2]).move([1,1]).move([3,3]);
+    gameOne.move(5).move(1).move(9);
     let nextTurns = nextMoves(gameOne);
     t.is(nextTurns.length, 6);
 });
