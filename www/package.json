@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "immutable": "^3.8.2",
-    "lodash": "^4.17.11"
+    "lodash": "^4.17.14"
   },
   "devDependencies": {
     "ava": "^1.4.1"
